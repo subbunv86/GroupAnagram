@@ -2,10 +2,51 @@
 //
 
 #include <iostream>
+#include <vector>
+#include<map>
+#include<algorithm>
+using namespace std;
+
+class Solution {
+public:
+	vector<vector<string>> groupAnagrams(vector<string>& strs)
+	{
+		map<string, vector<string>> resultMap;
+		map<string, vector<string>>::iterator it;
+		string sSorted;
+		vector<string> resultVector;
+		vector< vector<string>> returnVector;
+		string s;
+		for (int i=0; i<strs.size();i++)
+		{
+			s = strs[i];
+			sort(s.begin(), s.end());
+			if ((it = resultMap.find(s)) != resultMap.end())
+			{
+				resultVector = it->second;
+				resultVector.push_back(strs[i]);
+				it->second = resultVector;
+			}
+			else
+			{
+				resultVector.clear();
+				resultVector.push_back(strs[i]);
+				resultMap.insert(pair<string, vector<string>>(s, resultVector));
+			}
+		}
+		for (it = resultMap.begin(); it != resultMap.end(); it++)
+			returnVector.push_back(it->second);
+		return returnVector;
+	}
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	vector<string> inputStr = { "eat", "tea", "tan", "ate", "nat", "bat" };
+	vector<vector<string>> result;
+	Solution slnObj;
+	result = slnObj.groupAnagrams(inputStr);
+		std::cout << "Hello World!\n";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
